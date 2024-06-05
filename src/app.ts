@@ -1,6 +1,11 @@
 import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+import "databases/init.mongodb";
 
 const app = express();
 
