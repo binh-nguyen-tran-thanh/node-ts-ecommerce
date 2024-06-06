@@ -14,7 +14,10 @@ class Database {
         mongoose.set("debug", { color: true });
       }
 
-      await mongoose.connect(configs.database.connectionString!);
+      await mongoose.connect(configs.database.connectionString!, {
+        dbName: configs.database.databaseName,
+        maxPoolSize: configs.database.maxPoolSize,
+      });
       console.info("Connected to DB");
     } catch (error) {
       console.log("Fail to connect to database: ", error);
