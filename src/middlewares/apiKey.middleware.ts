@@ -1,4 +1,5 @@
 import { HEADER } from "constants/middlewares";
+import ForbiddenError from "errors/forbidenError";
 import { NextFunction, Request, Response } from "express";
 import ApiKeyService from "services/apiKey.service";
 
@@ -8,18 +9,12 @@ class ApiKeyMiddleware {
     res: Response,
     next: NextFunction
   ) => {
-    if (!req.headers[HEADER.API_KEY])
-      return res.status(403).json({
-        message: "Un-authorization error",
-      });
+    if (!req.headers[HEADER.API_KEY]) return next(new ForbiddenError({}));
 
     const apiKey = req.headers[HEADER.API_KEY] as string;
     const keyDetail = await ApiKeyService.getActiveApiKeyDetail(apiKey);
 
-    if (!keyDetail)
-      return res.status(403).json({
-        message: "Un-authorization error",
-      });
+    if (!keyDetail) return next(new ForbiddenError({}));
 
     return next();
   };
@@ -27,23 +22,15 @@ class ApiKeyMiddleware {
   static readonly checkPermissions =
     (permission: string) =>
     async (req: Request, res: Response, next: NextFunction) => {
-      if (!req.headers[HEADER.API_KEY])
-        return res.status(403).json({
-          message: "Un-authorization error",
-        });
+      if (!req.headers[HEADER.API_KEY]) return next(new ForbiddenError({}));
 
       const apiKey = req.headers[HEADER.API_KEY] as string;
       const keyDetail = await ApiKeyService.getActiveApiKeyDetail(apiKey);
 
-      if (!keyDetail)
-        return res.status(403).json({
-          message: "Un-authorization error",
-        });
+      if (!keyDetail) return next(new ForbiddenError({}));
 
       if (!keyDetail.permissions.includes(permission)) {
-        return res.status(403).json({
-          message: "Permission denied",
-        });
+        return next(new ForbiddenError({}));
       }
 
       return next();

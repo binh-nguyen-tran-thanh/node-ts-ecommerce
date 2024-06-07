@@ -9,6 +9,7 @@ import helmet from "helmet";
 import router from "routers";
 
 import "databases/init.mongodb";
+import { ErrorResponseMiddleware } from "middlewares/errorResponse.middleware";
 
 const app = express();
 
@@ -27,5 +28,7 @@ app.use(
 // Init routes
 app.use(router);
 // Handling error
+app.use(ErrorResponseMiddleware.fourZeroFourError);
+app.use(ErrorResponseMiddleware.errorHandler);
 
 export default app;

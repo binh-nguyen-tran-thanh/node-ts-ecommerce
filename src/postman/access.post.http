@@ -5,7 +5,18 @@ Content-Type: application/json
 x-api-key: 82d3ac9f-224c-40ff-b7e7-790b06270730
 
 {
-  "email": "binh.test@gmail.com",
+  "email": "binh.test+1@gmail.com",
   "name": "Shop Test",
   "password": "password123"
 }
+
+### sign-in
+POST {{base-url}}/api/v1/shop/sign-in
+Content-Type: application/json
+x-api-key: 82d3ac9f-224c-40ff-b7e7-790b06270730
+
+{
+  "email": "binh.test+1@gmail.com",
+  "password": "password123"
+}
+

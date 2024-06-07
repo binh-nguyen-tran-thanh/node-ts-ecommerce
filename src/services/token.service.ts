@@ -6,6 +6,7 @@ type TSaveKeyTokenParams = {
   userId: Types.ObjectId;
   publicKey: string;
   privateKey: string;
+  refreshToken: string;
 };
 
 class TokenService {
@@ -13,17 +14,27 @@ class TokenService {
     userId,
     publicKey,
     privateKey,
-  }: TSaveKeyTokenParams): Promise<boolean> {
+    refreshToken,
+  }: TSaveKeyTokenParams): Promise<string> {
     try {
-      const token = await tokenModel.create({
-        user: userId,
-        publicToken: publicKey,
-        privateToken: privateKey,
-      });
+      const filter = { user: userId };
+      const update = {
+        publicKey,
+        privateKey,
+        refreshToken,
+        refreshTokensUsed: [],
+      };
 
-      return !!token;
+      const options = {
+        new: true,
+        upsert: true,
+      };
+
+      const token = await tokenModel.findOneAndUpdate(filter, update, options);
+
+      return token?.refreshToken || "";
     } catch (_) {
-      return false;
+      return "";
     }
   }
 }
