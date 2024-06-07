@@ -37,7 +37,7 @@ export class ErrorResponseMiddleware {
     const errorResp: ErrorResponse = {
       errors: [
         {
-          message: ReasonPhrases.INTERNAL_SERVER_ERROR,
+          message: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
         },
       ],
       code: StatusCodes.INTERNAL_SERVER_ERROR,

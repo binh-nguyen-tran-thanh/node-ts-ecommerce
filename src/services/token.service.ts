@@ -19,8 +19,8 @@ class TokenService {
     try {
       const filter = { user: userId };
       const update = {
-        publicKey,
-        privateKey,
+        publicToken: publicKey,
+        privateToken: privateKey,
         refreshToken,
         refreshTokensUsed: [],
       };
@@ -36,6 +36,14 @@ class TokenService {
     } catch (_) {
       return "";
     }
+  }
+
+  static async findByUserId(userID: string) {
+    return await tokenModel.findOne({ user: userID }).lean();
+  }
+
+  static async deleteByUserId(userID: string) {
+    return await tokenModel.deleteOne({ user: userID });
   }
 }
 

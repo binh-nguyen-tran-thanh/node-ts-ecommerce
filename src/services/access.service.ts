@@ -114,4 +114,10 @@ export default class AccessService {
       ...tokens,
     };
   };
+
+  static readonly signOut = async (userId: string) => {
+    const deleteState = await TokenService.deleteByUserId(userId);
+
+    return deleteState;
+  };
 }
