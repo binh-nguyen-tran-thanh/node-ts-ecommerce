@@ -13,6 +13,10 @@ const configs = {
       collectionName: "tokens",
       name: "Token",
     },
+    apiKey: {
+      collectionName: "apiKeys",
+      name: "apiKey",
+    },
   },
 };
 

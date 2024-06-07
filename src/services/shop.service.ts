@@ -10,7 +10,7 @@ import { createTokenPair } from "auth/authUtils";
 import { Roles } from "enums/shop";
 
 class ShopService {
-  static sighUp = async ({
+  static readonly sighUp = async ({
     email,
     name,
     password,

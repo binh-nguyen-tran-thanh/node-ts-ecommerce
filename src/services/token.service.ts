@@ -21,7 +21,7 @@ class TokenService {
         privateToken: privateKey,
       });
 
-      return token ? true : false;
+      return !!token;
     } catch (_) {
       return false;
     }
