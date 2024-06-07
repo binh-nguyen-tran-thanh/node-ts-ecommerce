@@ -15,7 +15,7 @@ const schemaDefinitions = {
     type: String,
     require: true,
   },
-  refreshTokenUsed: {
+  refreshTokensUsed: {
     type: Array,
     default: [],
   },

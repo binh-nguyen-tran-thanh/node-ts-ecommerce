@@ -22,4 +22,9 @@ router.post(
   ErrorResponseMiddleware.errorEscapeWrapper(accessController.signOut)
 );
 
+router.post(
+  "/shop/refresh-token",
+  ErrorResponseMiddleware.errorEscapeWrapper(accessController.refreshToken)
+);
+
 export default router;

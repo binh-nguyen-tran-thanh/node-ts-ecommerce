@@ -39,11 +39,27 @@ class TokenService {
   }
 
   static async findByUserId(userID: string) {
-    return await tokenModel.findOne({ user: userID }).lean();
+    return await tokenModel.findOne({ user: userID });
   }
 
   static async deleteByUserId(userID: string) {
     return await tokenModel.deleteOne({ user: userID });
+  }
+
+  static async findByAccessTokenUsed(accessToken: string) {
+    return await tokenModel.findOne({ accessTokensUsed: accessToken }).lean();
+  }
+
+  static async findByAccessToken(accessToken: string) {
+    return await tokenModel.findOne({ accessToken }).lean();
+  }
+
+  static async deleteById(id: string) {
+    return await tokenModel.findByIdAndDelete(id);
+  }
+
+  static async deleteAllById(id: string) {
+    return await tokenModel.findByIdAndDelete(id);
   }
 }
 

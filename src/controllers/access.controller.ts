@@ -26,7 +26,26 @@ class AccessController {
 
     return new BaseResponse({
       message: "Logged out",
-      data: await accessService.signOut(req.tokenDetail?.user.toString()!),
+      data: await accessService.signOut(
+        req.tokenDetail?.get("user").toString()!
+      ),
+    }).sendResponse(res);
+  };
+
+  refreshToken = async (
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    console.log("[P]::refresh-token::", {
+      shop: req.shop,
+      refreshToken: req.refreshToken,
+      tokenDetail: req.tokenDetail?.toObject(),
+    });
+
+    return new BaseResponse({
+      message: "Refreshed Token",
+      data: await accessService.refreshToken(req),
     }).sendResponse(res);
   };
 }

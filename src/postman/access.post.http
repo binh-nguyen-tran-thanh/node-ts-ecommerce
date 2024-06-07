@@ -25,4 +25,12 @@ POST {{base-url}}/api/v1/shop/sign-out
 Content-Type: application/json
 x-api-key: 82d3ac9f-224c-40ff-b7e7-790b06270730
 x-client-id: 6662c0b83abee2a5f49d0c35
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjYyYzBiODNhYmVlMmE1ZjQ5ZDBjMzUiLCJlbWFpbCI6ImJpbmgudGVzdCsxQGdtYWlsLmNvbSIsImlhdCI6MTcxNzc2Njg0OSwiZXhwIjoxNzE3OTM5NjQ5fQ.HAS0oXUsh3aMVaDdotZoEqr-bMtkYNx0h9XB-Y6JSYI
+
+### refresh-token
+POST {{base-url}}/api/v1/shop/refresh-token
+Content-Type: application/json
+x-api-key: 82d3ac9f-224c-40ff-b7e7-790b06270730
+x-client-id: 6662c0b83abee2a5f49d0c35
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjYyYzBiODNhYmVlMmE1ZjQ5ZDBjMzUiLCJlbWFpbCI6ImJpbmgudGVzdCsxQGdtYWlsLmNvbSIsImlhdCI6MTcxNzc1NDcwNiwiZXhwIjoxNzE3OTI3NTA2fQ.hymTTQCdWFKqC6b2a1acelfRsTUvCJWDkUrSpQEgjEg
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjYyYzBiODNhYmVlMmE1ZjQ5ZDBjMzUiLCJlbWFpbCI6ImJpbmgudGVzdCsxQGdtYWlsLmNvbSIsImlhdCI6MTcxNzc2NjkzOCwiZXhwIjoxNzE4MzcxNzM4fQ.mdk2NIEpMgeWSPiUF4q2XYL55AyJuhSmSri1EvaDNsI
