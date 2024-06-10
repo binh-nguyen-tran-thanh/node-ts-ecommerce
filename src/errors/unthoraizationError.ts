@@ -10,9 +10,9 @@ export default class UnauthorizedError extends CustomError {
   private readonly _statusCode: number;
 
   constructor({ code, message }: IUnauthorizedErrorParams) {
-    super(message || ReasonPhrases.UNAUTHORIZED);
+    super(message ?? ReasonPhrases.UNAUTHORIZED);
 
-    this._statusCode = code || StatusCodes.UNAUTHORIZED;
+    this._statusCode = code ?? StatusCodes.UNAUTHORIZED;
     Object.setPrototypeOf(this, UnauthorizedError.prototype);
   }
 

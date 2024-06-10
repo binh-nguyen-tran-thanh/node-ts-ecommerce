@@ -1,6 +1,7 @@
 import tokenModel from "models/token.model";
 
-import type { Types } from "mongoose";
+import type { ObjectId, Types } from "mongoose";
+import TokenRepository from "repositories/token.repo";
 
 type TSaveKeyTokenParams = {
   userId: Types.ObjectId;
@@ -30,36 +31,32 @@ class TokenService {
         upsert: true,
       };
 
-      const token = await tokenModel.findOneAndUpdate(filter, update, options);
+      const token = await TokenRepository.findTokenAndUpdate(
+        filter,
+        update,
+        options
+      );
 
-      return token?.refreshToken || "";
+      return token?.refreshToken ?? "";
     } catch (_) {
       return "";
     }
   }
 
   static async findByUserId(userID: string) {
-    return await tokenModel.findOne({ user: userID });
+    return await TokenRepository.findTokenWithoutLean({
+      user: userID as unknown as Types.ObjectId,
+    });
   }
 
   static async deleteByUserId(userID: string) {
-    return await tokenModel.deleteOne({ user: userID });
-  }
-
-  static async findByAccessTokenUsed(accessToken: string) {
-    return await tokenModel.findOne({ accessTokensUsed: accessToken }).lean();
-  }
-
-  static async findByAccessToken(accessToken: string) {
-    return await tokenModel.findOne({ accessToken }).lean();
-  }
-
-  static async deleteById(id: string) {
-    return await tokenModel.findByIdAndDelete(id);
+    return await TokenRepository.deleteToken({
+      user: userID as unknown as Types.ObjectId,
+    });
   }
 
   static async deleteAllById(id: string) {
-    return await tokenModel.findByIdAndDelete(id);
+    return await TokenRepository.deleteById(id);
   }
 }
 

@@ -2,7 +2,7 @@ import { hash, compare } from "bcrypt";
 import { randomBytes } from "crypto";
 import { Roles } from "enums/shop";
 import BadRequestError from "errors/badRequestError";
-import shopModel, { TShop } from "models/shop.model";
+import { TShop } from "models/shop.model";
 import TokenService from "./token.service";
 import { createTokenPair } from "auth/authUtils";
 import ShopService from "./shop.service";
@@ -10,6 +10,7 @@ import { Types } from "mongoose";
 import { StatusCodes } from "http-status-codes";
 import { transferToViewObject } from "utils";
 import { IAddonRequest } from "middlewares/authentication.middleware";
+import ShopRepository from "repositories/shop.repo";
 
 export default class AccessService {
   private static readonly _generateTokens = async (
@@ -49,7 +50,7 @@ export default class AccessService {
     name,
     password,
   }: Pick<TShop, "email" | "password" | "name">) => {
-    const existingShopWithThatEmail = await shopModel.findOne({ email }).lean();
+    const existingShopWithThatEmail = await ShopRepository.findShop({ email });
     if (existingShopWithThatEmail) {
       throw new BadRequestError({
         message: "Shop email address is existed",
@@ -58,11 +59,11 @@ export default class AccessService {
 
     const hashedPassword = await hash(password, 10);
 
-    const shop = await shopModel.create({
+    const shop = await ShopRepository.createShop({
       name,
       email,
       password: hashedPassword,
-      roles: [Roles.SHOP],
+      roles: [Roles.SHOP] as any,
     });
 
     if (!shop) {

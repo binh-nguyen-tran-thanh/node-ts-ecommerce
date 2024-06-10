@@ -1,4 +1,4 @@
-import shopModel from "models/shop.model";
+import ShopRepository from "repositories/shop.repo";
 
 export default class ShopService {
   static readonly findShopByEmail = async (
@@ -11,7 +11,11 @@ export default class ShopService {
       roles: 1,
     }
   ) => {
-    const shop = shopModel.findOne({ email }).select(select).lean();
-    return shop;
+    return await ShopRepository.findShop(
+      {
+        email,
+      },
+      select
+    );
   };
 }

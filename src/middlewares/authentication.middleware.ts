@@ -5,7 +5,6 @@ import UnauthorizedError from "errors/unthoraizationError";
 import TokenService from "services/token.service";
 import { verify, JwtPayload } from "jsonwebtoken";
 import { TToken } from "models/token.model";
-import { TShop } from "models/shop.model";
 import { Document, Types } from "mongoose";
 import { JWTShopPayload } from "types/auth";
 

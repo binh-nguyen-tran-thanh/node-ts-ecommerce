@@ -1,10 +1,8 @@
-import apiKeyModel from "models/apiKey.model";
+import KeyRepository from "repositories/key.repo";
 
 class ApiKeyService {
   static readonly getActiveApiKeyDetail = async (apiKey: string) => {
-    const validKey = await apiKeyModel
-      .findOne({ key: apiKey, status: "active" })
-      .lean();
+    const validKey = await KeyRepository.findActiveKey({ key: apiKey });
     return validKey;
   };
 }
