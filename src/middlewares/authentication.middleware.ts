@@ -7,10 +7,11 @@ import { verify, JwtPayload } from "jsonwebtoken";
 import { TToken } from "models/token.model";
 import { TShop } from "models/shop.model";
 import { Document, Types } from "mongoose";
+import { JWTShopPayload } from "types/auth";
 
 export interface IAddonRequest {
   tokenDetail?: Document<Types.ObjectId, unknown, TToken>;
-  shop?: TShop;
+  shop?: JWTShopPayload;
   refreshToken?: string;
 }
 
@@ -47,7 +48,7 @@ export default class AuthenticationMiddleware {
               });
             }
             req.tokenDetail = tokenDetail;
-            req.shop = decodedUser as TShop;
+            req.shop = decodedUser as JWTShopPayload;
             req.refreshToken = refreshToken;
             return next();
           } catch (error) {
@@ -73,6 +74,7 @@ export default class AuthenticationMiddleware {
             });
           }
           req.tokenDetail = tokenDetail;
+          req.shop = decoded as JWTShopPayload;
           next();
         } catch (error) {
           next(error);

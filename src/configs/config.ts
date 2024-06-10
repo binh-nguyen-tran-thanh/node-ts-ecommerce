@@ -17,6 +17,22 @@ const configs = {
       collectionName: "apiKeys",
       name: "apiKey",
     },
+    product: {
+      collectionName: "products",
+      name: "Product",
+    },
+    electronic: {
+      collectionName: "electronics",
+      name: "Electronic",
+    },
+    furniture: {
+      collectionName: "furnitures",
+      name: "Furniture",
+    },
+    clothing: {
+      collectionName: "clothings",
+      name: "Clothing",
+    },
   },
 };
 
