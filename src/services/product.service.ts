@@ -8,7 +8,7 @@ import { Types } from "mongoose";
 import ClothingProductRepository from "repositories/clothing.repo";
 import ElectronicProductRepository from "repositories/electronic.repo";
 import FurnitureProductRepository from "repositories/furniture.repor";
-import ProductRepository from "repositories/product.repo";
+import ProductRepository, { TProductPayload } from "repositories/product.repo";
 
 interface ProductInterface<T> {
   attributes: Omit<T, "shop" | "_id">;
@@ -92,6 +92,43 @@ export default class ProductFactory {
     skip: number = 0
   ) {
     return await ProductRepository.findProductByText(text, limit, skip);
+  }
+
+  static async findAllProducts({
+    filter,
+    sort,
+    limit,
+    page,
+    select,
+  }: {
+    filter: Partial<TProductPayload>;
+    limit: number;
+    page: number;
+    sort: string;
+    select: string[];
+  }) {
+    return await ProductRepository.findAllProducts({
+      filter,
+      select: ["name", "thumbnail", "slug", "price", "quantity"].concat(select),
+      sort,
+      limit,
+      page,
+    });
+  }
+
+  static async findProductDetail({
+    id,
+    unselect = [],
+  }: {
+    id: string;
+    unselect?: string[];
+  }) {
+    return (
+      (await ProductRepository.findProductDetail({
+        unselect: ["__v"].concat(unselect),
+        id,
+      })) ?? {}
+    );
   }
 }
 

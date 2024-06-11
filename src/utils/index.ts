@@ -15,3 +15,11 @@ export function parseToInt(value: string, fallbackValue = 0) {
 
   return intValue;
 }
+
+export function parseArrayToSelectObject(selectArray: string[]) {
+  return Object.fromEntries(selectArray.map((key) => [key, 1]));
+}
+
+export function parseArrayToUnSelectObject(unSelectArray: string[]) {
+  return Object.fromEntries(unSelectArray.map((key) => [key, 0]));
+}

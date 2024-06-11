@@ -1,5 +1,6 @@
 import { NextFunction, Response } from "express";
 import { CustomRequest } from "middlewares/authentication.middleware";
+import { TProductPayload } from "repositories/product.repo";
 import { BaseResponse } from "responses/baseResponse";
 import productService from "services/product.service";
 import { parseToInt } from "utils";
@@ -26,7 +27,7 @@ export default class ProductController {
     res: Response,
     next: NextFunction
   ) => {
-    console.log("[P]::getAllDraftProduct::", req.body);
+    console.log("[G]::getAllDraftProduct::", req.query);
 
     const limit = parseToInt(req.query.limit as string, 50);
     const skip = parseToInt(req.query.skip as string, 0);
@@ -46,7 +47,7 @@ export default class ProductController {
     res: Response,
     next: NextFunction
   ) => {
-    console.log("[P]::getAllPublishedProduct::", req.body);
+    console.log("[G]::getAllPublishedProduct::", req.query);
 
     const limit = parseToInt(req.query.limit as string, 50);
     const skip = parseToInt(req.query.skip as string, 0);
@@ -66,7 +67,7 @@ export default class ProductController {
     res: Response,
     next: NextFunction
   ) => {
-    console.log("[P]::publishProduct::", req.body);
+    console.log("[P]::publishProduct::", req.query);
 
     return new BaseResponse({
       message: "Success!",
@@ -82,7 +83,7 @@ export default class ProductController {
     res: Response,
     next: NextFunction
   ) => {
-    console.log("[G]::searchProductByText::", req.body);
+    console.log("[G]::searchProductByText::", req.query);
 
     const limit = parseToInt(req.query.limit as string, 50);
     const skip = parseToInt(req.query.skip as string, 0);
@@ -91,6 +92,49 @@ export default class ProductController {
     return new BaseResponse({
       message: "Success!",
       data: await productService.searchProductByText(textQuery, limit, skip),
+    }).sendResponse(res);
+  };
+
+  static readonly getAllProducts = async (
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    console.log("[G]::getAllProducts::", req.query);
+
+    const limit = parseToInt(req.query.limit as string, 50);
+    const page = parseToInt(req.query.page as string, 1);
+    const filter = (req.query.filter as Partial<TProductPayload>) ?? {};
+    const select = (req.query.select as string[]) ?? [];
+    const sort = (req.query.sort as string) ?? [];
+
+    return new BaseResponse({
+      message: "Success!",
+      data: await productService.findAllProducts({
+        limit,
+        page,
+        filter,
+        select,
+        sort,
+      }),
+    }).sendResponse(res);
+  };
+
+  static readonly getProductDetail = async (
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    console.log("[G]::getProductDetail::", req.params);
+
+    const unselect = (req.query.select as string[]) ?? [];
+
+    return new BaseResponse({
+      message: "Success!",
+      data: await productService.findProductDetail({
+        id: req.params.productId,
+        unselect: unselect,
+      }),
     }).sendResponse(res);
   };
 }

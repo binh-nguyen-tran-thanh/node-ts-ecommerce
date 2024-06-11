@@ -29,10 +29,20 @@ router.post(
 );
 
 router.get(
-  "/public/products",
+  "/public/search/products",
   ErrorResponseMiddleware.errorEscapeWrapper(
     ProductController.searchProductByText
   )
+);
+
+router.get(
+  "/public/products",
+  ErrorResponseMiddleware.errorEscapeWrapper(ProductController.getAllProducts)
+);
+
+router.get(
+  "/public/products/:productId",
+  ErrorResponseMiddleware.errorEscapeWrapper(ProductController.getProductDetail)
 );
 
 export default router;

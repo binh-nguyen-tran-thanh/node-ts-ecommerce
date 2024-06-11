@@ -1,8 +1,9 @@
-import { query } from "express";
 import { productModel, TBaseProduct } from "models/product.model";
 import { AddonType } from "types/common";
+import { parseArrayToSelectObject, parseArrayToUnSelectObject } from "utils";
+import { SortOrder } from "mongoose";
 
-type TProductPayload = Partial<TBaseProduct> & AddonType;
+export type TProductPayload = Partial<TBaseProduct> & AddonType;
 
 export default class ProductRepository {
   static readonly createProduct = async (payload: TProductPayload) => {
@@ -93,5 +94,49 @@ export default class ProductRepository {
       .skip(skip)
       .limit(limit)
       .exec();
+  };
+
+  static readonly findAllProducts = async ({
+    filter,
+    select,
+    sort = "ctime",
+    limit = 20,
+    page = 1,
+  }: {
+    filter: Partial<TProductPayload>;
+    limit: number;
+    page: number;
+    select: string[];
+    sort: string;
+  }) => {
+    const skip = (page - 1) * limit;
+    const selectObject = parseArrayToSelectObject(select);
+    const sortObj: Record<string, SortOrder> =
+      sort === "ctime" ? { _id: -1 } : { _id: 1 };
+
+    return productModel
+      .find({ ...filter, isPublished: true })
+      .sort(sortObj)
+      .skip(skip)
+      .limit(limit)
+      .select(selectObject)
+      .lean();
+  };
+
+  static readonly findProductDetail = async ({
+    id,
+    unselect = [],
+  }: {
+    id: string;
+    unselect?: string[];
+  }) => {
+    const select = parseArrayToUnSelectObject(unselect);
+    return await productModel
+      .findById(id)
+      .where({
+        isPublished: true,
+      })
+      .select(select)
+      .lean();
   };
 }
