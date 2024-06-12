@@ -28,6 +28,13 @@ router.post(
   ErrorResponseMiddleware.errorEscapeWrapper(ProductController.publishProduct)
 );
 
+router.patch(
+  "/private/product/:productId",
+  ErrorResponseMiddleware.errorEscapeWrapper(
+    ProductController.patchUpdateProduct
+  )
+);
+
 router.get(
   "/public/search/products",
   ErrorResponseMiddleware.errorEscapeWrapper(

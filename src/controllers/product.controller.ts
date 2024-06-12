@@ -137,4 +137,21 @@ export default class ProductController {
       }),
     }).sendResponse(res);
   };
+
+  static readonly patchUpdateProduct = async (
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    console.log("[P]::updateProduct::", req.body);
+
+    return new BaseResponse({
+      message: "Update Success!",
+      data: await productService.updateProduct({
+        ...req.body,
+        _id: req.params.productId,
+        shop: req.shop?.userId,
+      }),
+    }).sendResponse(res);
+  };
 }

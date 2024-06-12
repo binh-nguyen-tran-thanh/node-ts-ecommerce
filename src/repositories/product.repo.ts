@@ -1,7 +1,7 @@
 import { productModel, TBaseProduct } from "models/product.model";
 import { AddonType } from "types/common";
 import { parseArrayToSelectObject, parseArrayToUnSelectObject } from "utils";
-import { SortOrder } from "mongoose";
+import { SortOrder, Types, Document, Model } from "mongoose";
 
 export type TProductPayload = Partial<TBaseProduct> & AddonType;
 
@@ -139,4 +139,18 @@ export default class ProductRepository {
       .select(select)
       .lean();
   };
+
+  static async updateProductDetail<T>({
+    productId,
+    updateData,
+    model,
+    isNew = true,
+  }: {
+    productId: string;
+    model: Model<T>;
+    updateData: Partial<T>;
+    isNew: boolean;
+  }) {
+    return await model.findByIdAndUpdate(productId, updateData, { new: isNew });
+  }
 }
